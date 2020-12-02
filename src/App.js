@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Outputresault from './components/Outputresault'
+import Processor from './components/processor'
+// import { Collapsible, CollapsibleItem, Icon } from 'materialize-css'
 
 function App() {
+  const [output, setOutput] = useState({ pattern: [], links: [], title: '' })
+  document.title = 'Розробка парсера'
+
+  function handleResults(res) {
+    // console.log(res)
+    setOutput({ ...output, ...res })
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Processor resaults={handleResults} patterns={output.pattern} />
+
+      <div className="container center-left">
+        <h3>Список початкових сторінок</h3>
+        <Outputresault results={output.pattern} source="pattern" install={handleResults} />
+        <h3>Список посилань</h3>
+        <Outputresault results={output.links} source="links" install={handleResults} />
+      </div>
     </div>
   );
 }
